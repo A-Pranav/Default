@@ -18,7 +18,6 @@ def move_detect(mxperson):
 
     right_eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_righteye_2splits.xml")
 
-    left_eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_lefteye_2splits.xml")
 
     body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_fullbody.xml")
 
@@ -39,14 +38,12 @@ def move_detect(mxperson):
 
         eyes = eye_cascade.detectMultiScale(gray, 1.35, 4)
 
-        leye = left_eye_cascade.detectMultiScale(gray, 1.28, 4)
-
         reye = right_eye_cascade.detectMultiScale(gray, 1.29, 3)
 
 
         bodies = body_cascade.detectMultiScale(gray, 1.2, 5)
 
-        if (len(faces) or len(bodies) or len(eyes) or len(leye) or len(reye) > 0):
+        if (len(faces) or len(bodies) or len(eyes)  or len(reye) > 0):
             if detection:
                 timer_started = False
             else:
@@ -80,24 +77,12 @@ def move_detect(mxperson):
             if len(eyes)> 0:
                 print(len(eyes)," eyes detected")
                 cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 15), 2)
-            else:
-                cv2.rectangle(frame, (x, y), (x + width, y + height), (25, 50, 255), 2)
         
         
-        for (x, y, width, height) in leye:
-            if len(leye)> 0:
+        for (x, y, width, height) in reye:
+            if len(reye)> 0:
                 print(len(eyes)," left eye detected")
                 cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 255, 0), 2)
-            else:
-                cv2.rectangle(frame, (x, y), (x + width, y + height), (25, 50, 255), 2)
-
-
-        for (x, y, width, height) in leye:
-            if len(leye)> 0:
-                print(len(eyes)," right eye detected")
-                cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
-            else:
-                cv2.rectangle(frame, (x, y), (x + width, y + height), (25, 50, 255), 2)
         
         
         cv2.imshow("Camera", frame)
